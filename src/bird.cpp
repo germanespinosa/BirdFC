@@ -1,5 +1,7 @@
-#include<catch.h>
+#include "pid.h"
+#include <iostream>
 
-TEST_CASE("pid_initialization")
+int main()
 {
+    std::cout<<"hello";
 }
