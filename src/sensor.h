@@ -25,14 +25,20 @@ namespace bird
         Sensor_Data roll;
         Sensor_Data pitch;
         Sensor_Data yaw;
-        Sensor_Data lateral_speed;      // Left - Right
-        Sensor_Data longitudinal_speed; // Backward - Forward
-        Sensor_Data vertical_speed;     // Down - Up
+        Sensor_Data lateral;      // Left - Right
+        Sensor_Data longitudinal; // Backward - Forward
+        Sensor_Data vertical;     // Down - Up
     };
     
     struct Sensor
     {
-        virtual void init() = 0;
-        virtual Sensor_Set read_values() = 0;
+    public:
+        virtual bool update() = 0;
+        Sensor_Set &get_sensor_set()
+        {
+            return sensor_set_;
+        }
+    private:
+        Sensor_Set sensor_set_;
     };    
 }

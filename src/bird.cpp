@@ -1,7 +1,4 @@
-#include"pid.h"
-#include"configuration.h"
-#include"sensor.h"
-#include <iostream>
+#include"bird.h"
 
 int main()
 {

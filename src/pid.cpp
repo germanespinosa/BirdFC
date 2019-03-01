@@ -1,16 +1,25 @@
 #include"pid.h"
 namespace bird
 {
-    void Pid_Controller::update(Pid_Set &pid_set)
+    void Pid::update()
     {
-        pid_set.value_error = pid_set.target.value - pid_set.sensor_data.value;
-        pid_set.change_speed_error = pid_set.target.change_speed - pid_set.sensor_data.change_speed;
-        double proportional = pid_set.value_error * pid_set.proportional_term.multiplier;
-        pid_set.proportional_term.value = pid_set.proportional_term.range.cap(proportional);
-        double derivative = pid_set.change_speed_error * pid_set.derivative_term.multiplier;
-        pid_set.derivative_term.value = pid_set.derivative_term.range.cap(derivative);
-        double integral = pid_set.value_error * pid_set.sensor_data.period * pid_set.integral_term.multiplier;
-        pid_set.integral_term.value = pid_set.integral_term.range.cap( pid_set.integral_term.value + integral );
-        pid_set.value = pid_set.proportional_term.value - pid_set.derivative_term.value + pid_set.integral_term.value;
+        //compute between values and targets
+        pid_set_.value_error = pid_set_.target.value - pid_set_.sensor_data.value;
+        pid_set_.change_speed_error = pid_set_.target.change_speed - pid_set_.sensor_data.change_speed;
+        
+        // proportional controller
+        double proportional = pid_set_.value_error * pid_set_.configuration.proportional.multiplier;
+        pid_set_.proportional_value = pid_set_.configuration.proportional.range.cap(proportional);
+
+
+        // derivative controller
+        double derivative = pid_set_.change_speed_error * pid_set_.configuration.derivative.multiplier;
+        pid_set_.derivative_value = pid_set_.configuration.derivative.range.cap(derivative);
+
+
+        // integral controller
+        double integral = pid_set_.value_error * pid_set_.sensor_data.period * pid_set_.configuration.integral.multiplier;
+        pid_set_.integral_value = pid_set_.configuration.integral.range.cap( pid_set_.integral_value + integral );
+        pid_set_.value = pid_set_.proportional_value - pid_set_.derivative_value + pid_set_.integral_value;
     }
 }  
