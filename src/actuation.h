@@ -5,25 +5,27 @@ namespace bird
 {
     enum Rotation {clockwise = 1, counterclockwise = -1};
     
-    struct Propeller
+
+    struct Output_Ratios
     {
-    public:
-        Propeller()
-        {}
-        Propeller(double angle, Rotation rotation)
-            : pitch_ratio(cos(angle))
-            , roll_ratio(sin(angle))
-            , yaw_ratio (rotation)
-            , longitudinal_ratio (pitch_ratio)
-            , lateral_ratio (roll_ratio)
-            , vertical_ratio (1)
-        {}
         double roll_ratio;
         double pitch_ratio;
         double yaw_ratio;
         double lateral_ratio;      // Left - Right
         double longitudinal_ratio; // Backward - Forward
         double vertical_ratio;     // Down - Up
+    };
+
+    struct Propeller
+    {
+    public:
+        Propeller()
+        {}
+        Propeller(double angle, Rotation rotation)
+            : ratios ({sin(angle),cos(angle),(double)rotation, sin(angle), cos(angle), 1})
+        {}
+        Output_Ratios ratios;
+        double output_value;
     };
 
     struct Actuation
@@ -35,7 +37,12 @@ namespace bird
             {return Actuation({0,M_PI*.5,M_PI,M_PI*1.5}, Rotation::clockwise);}
         static Actuation x()
             {return Actuation({M_PI*.25,M_PI*.75,M_PI*1.25,M_PI*1.75}, Rotation::clockwise);}
-        std::vector<Propeller> propellers;
         
+        void update()
+        {
+            
+        }
+        
+        std::vector<Propeller> propellers;
     };
 };

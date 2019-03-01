@@ -14,7 +14,7 @@ namespace bird
     void Actuation::invert_propellers()
     { 
         for (Propeller &prop : propellers)
-            prop.yaw_ratio = -prop.yaw_ratio ;
+            prop.ratios.yaw_ratio = -prop.ratios.yaw_ratio ;
     }
     
 }
