@@ -2,6 +2,12 @@
 
 namespace bird
 {
+    
+    Propeller::Propeller(double angle, Rotation rotation)
+        : ratios ({sin(angle),cos(angle),(double)rotation, sin(angle), cos(angle), 1})
+    {}
+    
+    
     Actuator_Set::Actuator_Set (std::initializer_list<double> angles, Rotation rotation)
     {
         for (double angle : angles)
@@ -16,5 +22,9 @@ namespace bird
         for (Propeller &prop : propellers)
             prop.ratios.yaw = -prop.ratios.yaw ;
     }
-    
+
+    Actuator_Set &Actuator::get_actuator_set()
+    {
+        return actuator_set_;
+    }    
 }

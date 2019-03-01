@@ -6,6 +6,7 @@ namespace bird
 {
     struct Sensor_Data
     {
+    public:
         Sensor_Data(){}
         Sensor_Data(double secs):
             timer_(secs){}

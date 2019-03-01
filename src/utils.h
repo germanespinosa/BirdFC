@@ -11,14 +11,10 @@ namespace bird
             ,max(max_value){}
         double min;
         double max;
-        double size()
-            {return max-min;}
-        double cap(double value)
-            {return std::max(std::min(value,max),min);}
-        bool between(double value)
-            {return value<=max && value>=min;}
-        double adjust(double value, Range  range)
-            {return (value - range.min) / range.size() * size() + min;}
+        double size();
+        double cap(double value);
+        bool between(double value);
+        double adjust(double value, Range  range);
     };
     struct Timer
     {
@@ -32,10 +28,10 @@ namespace bird
         double fixed_time = 0;
         
     };
-    struct Target
+    struct Value
     {
     public:
         double value = 0;
-        double change_speed = 0;
+        double change_speed = 0; //units per second
     };
 }

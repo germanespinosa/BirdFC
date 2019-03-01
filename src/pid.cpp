@@ -1,6 +1,18 @@
 #include"pid.h"
 namespace bird
 {
+    Pid_Set::Pid_Set( Sensor_Data &sensor_data, Value &target, Pid_Configuration Actuator_Set)
+        : sensor_data (sensor_data)
+        , target (target)
+        , Actuator_Set (Actuator_Set)
+    {
+    }
+
+    Pid::Pid(Pid_Set pid_set)
+        : pid_set_(pid_set)
+    {
+    }
+    
     void Pid::update()
     {
         //compute between values and targets
@@ -22,4 +34,10 @@ namespace bird
         pid_set_.integral_value = pid_set_.Actuator_Set.integral.range.cap( pid_set_.integral_value + integral );
         pid_set_.value = pid_set_.proportional_value - pid_set_.derivative_value + pid_set_.integral_value;
     }
+    
+
+    Pid_Set &Pid::get_pid_set()
+    {
+        return pid_set_;
+    }    
 }  

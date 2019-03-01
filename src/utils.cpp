@@ -2,6 +2,24 @@
 
 namespace bird
 {
+    
+    double Range::size()
+    {
+        return max-min;
+    }
+    double Range::cap(double value)
+    {
+        return std::max(std::min(value,max),min);
+    }
+    bool Range::between(double value)
+    {
+        return value<=max && value>=min;
+    }
+    double Range::adjust(double value, Range  range)
+    {
+        return (value - range.min) / range.size() * size() + min;
+    }
+    
     Timer::Timer()
     {
         gettimeofday(&start_time_, NULL);
