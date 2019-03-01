@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -6,7 +6,11 @@
 
 #IncludeRegexTransform: 
 
-.eecs211/lib/catch/src/catch.h
+/home/pi/BirdFC/lib/catch/src/catch-main.cpp
+catch.h
+-
+
+lib/catch/src/catch.h
 TargetConditionals.h
 -
 iosfwd
@@ -244,7 +248,7 @@ string
 memory
 -
 Foundation/Foundation.h
-.eecs211/lib/catch/src/Foundation/Foundation.h
+lib/catch/src/Foundation/Foundation.h
 crtdbg.h
 -
 set
@@ -416,9 +420,5 @@ ctime
 algorithm
 -
 cassert
--
-
-/home/cs211/gitroot/eecs211-labs/eecs211-lab06/.eecs211/lib/catch/src/catch-main.cpp
-catch.h
 -
 
