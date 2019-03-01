@@ -24,13 +24,13 @@ namespace bird
     struct Pid_Set
     {
     public:
-        Pid_Set( Sensor_Data &sensor_data, Target &target, Pid_Configuration Actuation)
+        Pid_Set( Sensor_Data &sensor_data, Target &target, Pid_Configuration Actuator_Set)
             : sensor_data (sensor_data)
             , target (target)
-            , Actuation (Actuation)
+            , Actuator_Set (Actuator_Set)
         {
         }
-        Pid_Configuration Actuation;
+        Pid_Configuration Actuator_Set;
         double proportional_value = 0;
         double derivative_value = 0;
         double integral_value = 0;
