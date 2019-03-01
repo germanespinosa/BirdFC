@@ -17,5 +17,5 @@ add_test_program (test_bird
     src/pid.cpp
     tests/pid_test.cpp
     tests/sensor_test.cpp
-    tests/configuration_test.cpp
+    tests/actuation_test.cpp
     tests/utils_test.cpp )
