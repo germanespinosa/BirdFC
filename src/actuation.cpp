@@ -1,8 +1,8 @@
-#include"configuration.h"
+#include"actuation.h"
 
 namespace bird
 {
-    Configuration::Configuration (std::initializer_list<double> angles, Rotation rotation)
+    Actuation::Actuation (std::initializer_list<double> angles, Rotation rotation)
     {
         for (double angle : angles)
         {
@@ -11,7 +11,7 @@ namespace bird
         }
     }
     
-    void Configuration::invert_propellers()
+    void Actuation::invert_propellers()
     { 
         for (Propeller &prop : propellers)
             prop.yaw_ratio = -prop.yaw_ratio ;

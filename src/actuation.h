@@ -26,15 +26,15 @@ namespace bird
         double vertical_ratio;     // Down - Up
     };
 
-    struct Configuration
+    struct Actuation
     {
     public:
-        Configuration (std::initializer_list<double> angles, Rotation rotation);
+        Actuation (std::initializer_list<double> angles, Rotation rotation);
         void invert_propellers();
-        static Configuration plus()
-            {return Configuration({0,M_PI*.5,M_PI,M_PI*1.5}, Rotation::clockwise);}
-        static Configuration x()
-            {return Configuration({M_PI*.25,M_PI*.75,M_PI*1.25,M_PI*1.75}, Rotation::clockwise);}
+        static Actuation plus()
+            {return Actuation({0,M_PI*.5,M_PI,M_PI*1.5}, Rotation::clockwise);}
+        static Actuation x()
+            {return Actuation({M_PI*.25,M_PI*.75,M_PI*1.25,M_PI*1.75}, Rotation::clockwise);}
         std::vector<Propeller> propellers;
         
     };

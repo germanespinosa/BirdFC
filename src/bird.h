@@ -1,7 +1,7 @@
 #include <iostream>
 #include"utils.h"
 #include"pid.h"
-#include"configuration.h"
+#include"actuation.h"
 #include"sensor.h"
 #include"control.h"
 
@@ -21,8 +21,8 @@ namespace bird
     struct Bird
     {
     public:
-        Bird (Configuration &configuration, Sensor &sensor, Control &control, Bird_Set bird_set)
-            : configuration_(configuration)
+        Bird (Actuation &Actuation, Sensor &sensor, Control &control, Bird_Set bird_set)
+            : Actuation_(Actuation)
             , sensor_(sensor)
             , control_(control)
             , roll_ (Pid(Pid_Set(sensor.get_sensor_set().roll,control.get_control_set().roll,bird_set.roll)))
@@ -44,11 +44,12 @@ namespace bird
                 lateral_.update();
                 longitudinal_.update();
                 vertical_.update();
+                
             }
         }
         
     private:
-        Configuration &configuration_;
+        Actuation &Actuation_;
         Sensor &sensor_;
         Control &control_;
         Pid roll_;

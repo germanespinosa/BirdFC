@@ -8,18 +8,18 @@ namespace bird
         pid_set_.change_speed_error = pid_set_.target.change_speed - pid_set_.sensor_data.change_speed;
         
         // proportional controller
-        double proportional = pid_set_.value_error * pid_set_.configuration.proportional.multiplier;
-        pid_set_.proportional_value = pid_set_.configuration.proportional.range.cap(proportional);
+        double proportional = pid_set_.value_error * pid_set_.Actuation.proportional.multiplier;
+        pid_set_.proportional_value = pid_set_.Actuation.proportional.range.cap(proportional);
 
 
         // derivative controller
-        double derivative = pid_set_.change_speed_error * pid_set_.configuration.derivative.multiplier;
-        pid_set_.derivative_value = pid_set_.configuration.derivative.range.cap(derivative);
+        double derivative = pid_set_.change_speed_error * pid_set_.Actuation.derivative.multiplier;
+        pid_set_.derivative_value = pid_set_.Actuation.derivative.range.cap(derivative);
 
 
         // integral controller
-        double integral = pid_set_.value_error * pid_set_.sensor_data.period * pid_set_.configuration.integral.multiplier;
-        pid_set_.integral_value = pid_set_.configuration.integral.range.cap( pid_set_.integral_value + integral );
+        double integral = pid_set_.value_error * pid_set_.sensor_data.period * pid_set_.Actuation.integral.multiplier;
+        pid_set_.integral_value = pid_set_.Actuation.integral.range.cap( pid_set_.integral_value + integral );
         pid_set_.value = pid_set_.proportional_value - pid_set_.derivative_value + pid_set_.integral_value;
     }
 }  
