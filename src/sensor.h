@@ -34,10 +34,7 @@ namespace bird
     {
     public:
         virtual bool update() = 0;
-        Sensor_Set &get_sensor_set()
-        {
-            return sensor_set_;
-        }
+        Sensor_Set &get_sensor_set();
     private:
         Sensor_Set sensor_set_;
     };    

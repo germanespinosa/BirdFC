@@ -18,4 +18,8 @@ namespace bird
         value += new_change_speed * period;
         change_speed = new_change_speed;
     }
+    Sensor_Set &Sensor::get_sensor_set()
+    {
+        return sensor_set_;
+    }    
 }
