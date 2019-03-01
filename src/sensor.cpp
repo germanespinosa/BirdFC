@@ -4,7 +4,7 @@ namespace bird
     void Sensor_Data::update()
     {
         period = timer_.restart();
-    }
+    } 
     
     void Sensor_Data::update_change_speed(double new_value)
     {

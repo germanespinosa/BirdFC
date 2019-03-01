@@ -4,6 +4,7 @@ project(BirdFC)
 
 include(CMakeFunctions.txt)
 add_program(bird
+    src/utils.cpp
     src/control.cpp
     src/sensor.cpp
     src/actuator.cpp
@@ -11,6 +12,7 @@ add_program(bird
     src/bird.cpp) 
 
 add_test_program (test_bird 
+    src/utils.cpp
     src/control.cpp
     src/sensor.cpp
     src/actuator.cpp

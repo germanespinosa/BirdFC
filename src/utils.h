@@ -22,26 +22,10 @@ namespace bird
     };
     struct Timer
     {
-        Timer()
-        {
-            gettimeofday(&start_time_, NULL);
-        }
-        Timer(double secs)
-            :fixed_time (secs)
-        {
-        }
-        double restart()
-        {
-            double secs = elapsed();
-            start_time_ = current_time_;
-        }
-        double elapsed()
-        {
-            if (fixed_time) return fixed_time;
-            gettimeofday(&current_time_, NULL);
-            return (double) (current_time_.tv_usec - start_time_.tv_usec) / 1000000 +
-                   (double) (current_time_.tv_sec - start_time_.tv_sec);
-        }
+        Timer();
+        Timer(double secs);
+        double restart();
+        double elapsed();
     private:
         timeval start_time_;
         timeval current_time_;
