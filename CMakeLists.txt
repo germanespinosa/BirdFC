@@ -9,7 +9,8 @@ add_program(bird
     src/sensor.cpp
     src/actuator.cpp
     src/pid.cpp
-    src/bird.cpp) 
+    src/bird.cpp
+    src/main.cpp)
 
 add_test_program (test_bird 
     src/utils.cpp

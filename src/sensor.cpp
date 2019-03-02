@@ -9,14 +9,14 @@ namespace bird
     void Sensor_Data::update_change_speed(double new_value)
     {
         update();
-        change_speed = ( new_value - value ) / period;
-        value = new_value;
+        variable.change_speed = ( new_value - variable.value ) / period;
+        variable.value = new_value;
     }
     void Sensor_Data::update_value(double new_change_speed)
     {
         update();
-        value += new_change_speed * period;
-        change_speed = new_change_speed;
+        variable.value += new_change_speed * period;
+        variable.change_speed = new_change_speed;
     }
     Sensor_Set &Sensor::get_sensor_set()
     {

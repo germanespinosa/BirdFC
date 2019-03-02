@@ -28,7 +28,7 @@ namespace bird
         double fixed_time = 0;
         
     };
-    struct Value
+    struct Variable
     {
     public:
         double value = 0;

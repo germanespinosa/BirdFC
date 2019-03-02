@@ -24,7 +24,7 @@ namespace bird
     struct Pid_Set
     {
     public:
-        Pid_Set( Sensor_Data &sensor_data, Value &target, Pid_Configuration Actuator_Set);
+        Pid_Set( Sensor_Data &sensor_data, Variable &target, Pid_Configuration Actuator_Set);
         Pid_Configuration Actuator_Set;
         double proportional_value = 0;
         double derivative_value = 0;
@@ -32,7 +32,7 @@ namespace bird
         double value_error = 0;
         double change_speed_error = 0;
         Sensor_Data &sensor_data;
-        Value &target;
+        Variable &target;
         double value = 0;
     };
 

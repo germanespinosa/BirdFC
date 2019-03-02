@@ -10,8 +10,7 @@ namespace bird
         Sensor_Data(){}
         Sensor_Data(double secs):
             timer_(secs){}
-        double value = 0;
-        double change_speed = 0;
+        Variable variable;
         double period=0;
         Range range{0,0};
         void update();

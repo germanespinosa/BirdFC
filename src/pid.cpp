@@ -1,7 +1,7 @@
 #include"pid.h"
 namespace bird
 {
-    Pid_Set::Pid_Set( Sensor_Data &sensor_data, Value &target, Pid_Configuration Actuator_Set)
+    Pid_Set::Pid_Set( Sensor_Data &sensor_data, Variable &target, Pid_Configuration Actuator_Set)
         : sensor_data (sensor_data)
         , target (target)
         , Actuator_Set (Actuator_Set)
@@ -16,8 +16,8 @@ namespace bird
     void Pid::update()
     {
         //compute between values and targets
-        pid_set_.value_error = pid_set_.target.value - pid_set_.sensor_data.value;
-        pid_set_.change_speed_error = pid_set_.target.change_speed - pid_set_.sensor_data.change_speed;
+        pid_set_.value_error = pid_set_.target.value - pid_set_.sensor_data.variable.value;
+        pid_set_.change_speed_error = pid_set_.target.change_speed - pid_set_.sensor_data.variable.change_speed;
         
         // proportional controller
         double proportional = pid_set_.value_error * pid_set_.Actuator_Set.proportional.multiplier;

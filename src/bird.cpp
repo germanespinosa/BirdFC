@@ -44,8 +44,3 @@ namespace bird
         }
     }
 }
-
-int main()
-{
-    std::cout<<"hello";
-}
