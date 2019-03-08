@@ -22,7 +22,7 @@ namespace bird
     
     struct Sensor_Set
     {
-        Sensor_Data roll;
+        Sensor_Data roll; 
         Sensor_Data pitch;
         Sensor_Data yaw;
         Sensor_Data lateral;      // Left - Right
@@ -35,7 +35,6 @@ namespace bird
     public:
         virtual bool update() = 0;
         Sensor_Set &get_sensor_set();
-    private:
         Sensor_Set sensor_set_;
     };    
 }

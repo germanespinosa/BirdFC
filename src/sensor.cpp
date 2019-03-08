@@ -1,7 +1,7 @@
 #include"sensor.h"
 namespace bird
 {
-    void Sensor_Data::update()
+    void Sensor_Data::update() 
     {
         period = timer_.restart();
     } 

@@ -1,0 +1,94 @@
+#include"mpu9250_constants.h"
+#include"../sensor.h"
+#include <wiringPiI2C.h>
+#include <wiringPi.h>
+#include <math.h>
+
+namespace bird
+{
+    struct Mpu9250 : Sensor
+    {
+        Mpu9250_Constants constants;
+        Mpu9250 ()
+        {
+            init_IMU_();
+            set_accelerometer_resolution_();
+            set_gyroscope_resolution_();
+            set_magnetometer_resolution_();            
+        }        
+        Mpu9250 (uint8_t gyroscope_scale,uint8_t accelerometer_scale,uint8_t magnetometer_scale)
+        {
+            gyroscope_scale_ = gyroscope_scale;
+            accelerometer_scale_ = accelerometer_scale;
+            magnetometer_scale_ = magnetometer_scale;
+            init_IMU_();
+            set_accelerometer_resolution_();
+            set_gyroscope_resolution_();
+            set_magnetometer_resolution_();
+        }        
+        bool update() override;
+        void calibrate_IMU();
+
+    //private:
+
+        struct Data_
+        {
+            double x;
+            double y;
+            double z;
+        };
+
+        struct Raw_Data_
+        {
+            int16_t x;
+            int16_t y;
+            int16_t z;
+        };
+        
+        struct Calibration_Data_
+        {
+            uint32_t x;
+            uint32_t y;
+            uint32_t z;
+            Calibration_Data_ operator += (Raw_Data_ data)
+            {
+                x+=data.x;
+                y+=data.y;
+                z+=data.z;
+                return *this;
+            }
+            Raw_Data_ operator / (uint16_t divisor)
+            {
+                Raw_Data_ raw;
+                raw.x+=x/divisor;
+                raw.y+=y/divisor;
+                raw.z+=z/divisor;
+                return raw;
+            }
+            
+        };
+
+        
+        void init_IMU_();
+        Raw_Data_ read_accelerometer_raw_();
+        Raw_Data_ read_gyroscope_raw_();
+        Data_ read_accelerometer_();
+        Data_ read_gyroscope_();
+        void read_magnetometer_();
+        void set_accelerometer_resolution_();
+        void set_gyroscope_resolution_();
+        void set_magnetometer_resolution_();
+        
+        int imu_handler_;
+
+        uint8_t gyroscope_scale_ = constants.GFS_250DPS;
+        uint8_t accelerometer_scale_ = constants.AFS_2G;
+        // Choose either 14-bit or 16-bit magnetometer resolution
+        uint8_t magnetometer_scale_ = constants.MFS_16BITS;
+        
+        double accelerometer_resolution_;
+        double gyroscope_resolution_;
+        double magnetometer_resolution_;
+    
+    };
+}
