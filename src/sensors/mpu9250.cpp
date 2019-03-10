@@ -6,6 +6,26 @@
 
 namespace bird
 {
+
+
+    void Mpu9250::writeAK8963Register(uint8_t subAddress, uint8_t data)
+    {
+        wiringPiI2CWriteReg8(imu_handler_, constants.I2C_SLV0_ADDR, constants.AK8963_ADDRESS);
+        wiringPiI2CWriteReg8(imu_handler_, constants.I2C_SLV0_REG, subAddress);
+        wiringPiI2CWriteReg8(imu_handler_, constants.I2C_SLV0_DO, data);
+        wiringPiI2CWriteReg8(imu_handler_, constants.I2C_SLV0_CTRL, constants.I2C_SLV0_EN | 1);
+    }
+
+    void Mpu9250::readAK8963Registers(uint8_t subAddress, uint8_t count, uint8_t* dest)
+    {
+        wiringPiI2CWriteReg8(imu_handler_, constants.I2C_SLV0_ADDR, constants.AK8963_ADDRESS| constants.I2C_READ_FLAG);
+        wiringPiI2CWriteReg8(imu_handler_, constants.I2C_SLV0_REG, subAddress);
+        wiringPiI2CWriteReg8(imu_handler_, constants.I2C_SLV0_CTRL, constants.I2C_SLV0_EN | count);
+        delay(1); // takes some time for these registers to fill
+        for (int i=0;i<count;i++)
+            dest[i]=wiringPiI2CReadReg8(imu_handler_,constants.EXT_SENS_DATA_00+i); // read the bytes off the MPU9250 EXT_SENS_DATA registers
+    }
+
     void Mpu9250::init_IMU_()
     {
         imu_handler_ = wiringPiI2CSetup(0x68);
@@ -83,6 +103,34 @@ namespace bird
         // Enable data ready (bit 0) interrupt
         wiringPiI2CWriteReg8(imu_handler_, constants.INT_ENABLE, 0x01);
         delay(100);
+        
+
+
+
+
+        // First extract the factory calibration for each magnetometer axis
+        // TODO: Test this!! Likely doesn't work
+        writeAK8963Register(constants.AK8963_CNTL, 0x00); // Power down magnetometer
+        delay(10);
+        writeAK8963Register(constants.AK8963_CNTL, 0x0F); // Enter Fuse ROM access mode
+        delay(10);
+
+        // Return x-axis sensitivity adjustment values, etc.
+        writeAK8963Register(constants.AK8963_CNTL, 0x00); // Power down magnetometer
+        delay(10);
+
+        // Configure the magnetometer for continuous read and highest resolution.
+        // Set Mscale bit 4 to 1 (0) to enable 16 (14) bit resolution in CNTL
+        // register, and enable continuous mode data acquisition Mmode (bits [3:0]),
+        // 0010 for 8 Hz and 0110 for 100 Hz sample rates.
+
+        // Set magnetometer data resolution and sample ODR
+        std::cout << "sc :" << (int) magnetometer_scale_ << "\n";
+        wiringPiI2CWriteReg8(imu_handler_, constants.AK8963_CNTL, magnetometer_scale_ << 4 | constants.M_8HZ);
+        delay(10);
+        
+
+
         sensor_set_.roll.update();
         sensor_set_.pitch.update();
         sensor_set_.yaw.update();
@@ -93,14 +141,14 @@ namespace bird
     {
       Mpu9250::Raw_Data_ raw;
       int8_t *rx = (int8_t *)&raw.x;
-      rx[1] = wiringPiI2CReadReg8(imu_handler_, constants.ACCEL_XOUT_H);
       rx[0] = wiringPiI2CReadReg8(imu_handler_, constants.ACCEL_XOUT_L);
+      rx[1] = wiringPiI2CReadReg8(imu_handler_, constants.ACCEL_XOUT_H);
       int8_t *ry = (int8_t *)&raw.y;
-      ry[1] = wiringPiI2CReadReg8(imu_handler_, constants.ACCEL_YOUT_H);
       ry[0] = wiringPiI2CReadReg8(imu_handler_, constants.ACCEL_YOUT_L);
+      ry[1] = wiringPiI2CReadReg8(imu_handler_, constants.ACCEL_YOUT_H);
       int8_t *rz = (int8_t *)&raw.z;
-      rz[1] = wiringPiI2CReadReg8(imu_handler_, constants.ACCEL_ZOUT_H);
       rz[0] = wiringPiI2CReadReg8(imu_handler_, constants.ACCEL_ZOUT_L);
+      rz[1] = wiringPiI2CReadReg8(imu_handler_, constants.ACCEL_ZOUT_H);
       return raw;
     } 
 
@@ -129,6 +177,10 @@ namespace bird
       return data;
     }
 
+    void Mpu9250::read_magnetometer_()
+    {
+    }
+    
     Mpu9250::Data_ Mpu9250::read_gyroscope_()
     {
       Mpu9250::Raw_Data_ raw = read_gyroscope_raw_();
@@ -139,9 +191,18 @@ namespace bird
       return data;
     }
 
-    void Mpu9250::read_magnetometer_()
+    Mpu9250::Raw_Data_ Mpu9250::read_magnetometer_raw_()
     {
-        
+        Raw_Data_ raw;
+    uint8_t rawData[7];  // x/y/z gyro register data, ST2 register stored here, must read ST2 at end of data acquisition
+    readAK8963Registers(constants.AK8963_XOUT_L, 7, rawData);  // Read the six raw data and ST2 registers sequentially into data array
+    uint8_t c = rawData[6]; // End data read by reading ST2 register
+    if(!(c & 0x08)) { // Check if magnetic sensor overflow set, if not then report data
+        raw.x = ((int16_t)rawData[1] << 8) | rawData[0] ;  // Turn the MSB and LSB into a signed 16-bit value
+        raw.y = ((int16_t)rawData[3] << 8) | rawData[2] ;  // Data stored as little Endian
+        raw.z = ((int16_t)rawData[5] << 8) | rawData[4] ; 
+    }
+      return raw;
     }
 
     void Mpu9250::set_magnetometer_resolution_()
@@ -168,16 +229,16 @@ namespace bird
         // Here's a bit of an algorith to calculate DPS/(ADC tick) based on that
         // 2-bit value:
         case constants.GFS_250DPS:
-          gyroscope_resolution_ = 250.0f / 32768.0f;
+          gyroscope_resolution_ = 250.0f / 32768.0f / 360.0f * 2 * constants.PI;
           break;
         case constants.GFS_500DPS:
-          gyroscope_resolution_ = 500.0f / 32768.0f;
+          gyroscope_resolution_ = 500.0f / 32768.0f / 360.0f * 2 * constants.PI;
           break;
         case constants.GFS_1000DPS:
-          gyroscope_resolution_ = 1000.0f / 32768.0f;
+          gyroscope_resolution_ = 1000.0f / 32768.0f / 360.0f * 2 * constants.PI;
           break;
         case constants.GFS_2000DPS:
-          gyroscope_resolution_ = 2000.0f / 32768.0f;
+          gyroscope_resolution_ = 2000.0f / 32768.0f / 360.0f * 2 * constants.PI;
           break;
       }
     }
@@ -232,7 +293,7 @@ namespace bird
 
       // reset device
       // Write a one to bit 7 reset bit; toggle reset device
-      wiringPiI2CWriteReg8(imu_handler_, constants.PWR_MGMT_1, constants.READ_FLAG);
+      wiringPiI2CWriteReg8(imu_handler_, constants.PWR_MGMT_1, constants.I2C_READ_FLAG);
       delay(100);
 
       // get stable time source; Auto select clock source to be PLL gyroscope

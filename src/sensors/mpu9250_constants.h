@@ -1,10 +1,13 @@
 #pragma once
 #include<cstdint> 
+#include <math.h>
 
 namespace bird
 {
     struct Mpu9250_Constants
     {
+        //PI
+        const double PI                  = M_PI;
         //Magnetometer Registers
         const uint8_t WHO_AM_I_AK8963    = 0x00; // (AKA WIA) should return= 0x48
         const uint8_t INFO               = 0x01;
@@ -154,7 +157,8 @@ namespace bird
         const uint8_t AK8963_ADDRESS      = 0x0C;   // Address of magnetometer
 
 
-        const uint8_t READ_FLAG= 0x80;
+        static const uint8_t I2C_SLV0_EN        = 0x80;
+        static const uint8_t I2C_READ_FLAG      = 0x80;
 
         // Set initial input parameters
         enum Ascale

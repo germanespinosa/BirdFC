@@ -28,7 +28,8 @@ namespace bird
         }        
         bool update() override;
         void calibrate_IMU();
-
+        void writeAK8963Register(uint8_t subAddress, uint8_t data);
+        void readAK8963Registers(uint8_t subAddress, uint8_t count, uint8_t* dest);
     //private:
 
         struct Data_
@@ -72,6 +73,7 @@ namespace bird
         void init_IMU_();
         Raw_Data_ read_accelerometer_raw_();
         Raw_Data_ read_gyroscope_raw_();
+        Raw_Data_ read_magnetometer_raw_();
         Data_ read_accelerometer_();
         Data_ read_gyroscope_();
         void read_magnetometer_();
