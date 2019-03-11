@@ -9,23 +9,29 @@ namespace bird
         //PI
         const double PI                  = M_PI;
         //Magnetometer Registers
-        const uint8_t WHO_AM_I_AK8963    = 0x00; // (AKA WIA) should return= 0x48
-        const uint8_t INFO               = 0x01;
-        const uint8_t AK8963_ST1         = 0x02;  // data ready status bit 0
-        const uint8_t AK8963_XOUT_L      = 0x03;  // data
-        const uint8_t AK8963_XOUT_H      = 0x04;
-        const uint8_t AK8963_YOUT_L      = 0x05;
-        const uint8_t AK8963_YOUT_H      = 0x06;
-        const uint8_t AK8963_ZOUT_L      = 0x07;
-        const uint8_t AK8963_ZOUT_H      = 0x08;
-        const uint8_t AK8963_ST2         = 0x09;  // Data overflow bit 3 and data read error status bit 2
-        const uint8_t AK8963_CNTL        = 0x0A;  // Power down (0000), single-measurement (0001), self-test (1000) and Fuse ROM (1111) modes on bits 3:0
-        const uint8_t AK8963_ASTC        = 0x0C;  // Self test control
-        const uint8_t AK8963_I2CDIS      = 0x0F;  // I2C disable
-        const uint8_t AK8963_ASAX        = 0x10;  // Fuse ROM x-axis sensitivity adjustment value
-        const uint8_t AK8963_ASAY        = 0x11;  // Fuse ROM y-axis sensitivity adjustment value
-        const uint8_t AK8963_ASAZ        = 0x12;  // Fuse ROM z-axis sensitivity adjustment value
+        const uint8_t AK8963_ADDRESS   = 0x0C;
+        const uint8_t WHO_AM_I_AK8963  = 0x00; // should return 0x48
 
+        const uint8_t AK8963_ST1       = 0x02;  // data ready status bit 0
+        const uint8_t AK8963_XOUT_L    = 0x03;  // data
+        const uint8_t AK8963_XOUT_H    = 0x04;  // data
+        const uint8_t AK8963_YOUT_L    = 0x05;  // data
+        const uint8_t AK8963_YOUT_H    = 0x06;  // data
+        const uint8_t AK8963_ZOUT_L    = 0x07;  // data
+        const uint8_t AK8963_ZOUT_H    = 0x08;  // data
+        const uint8_t AK8963_ST2       = 0x09;  // status2
+        const uint8_t AK8963_CNTL      = 0x0A;
+        const uint8_t AK8963_ASAX      = 0x10;
+        const uint8_t AK8963_ASAY      = 0x11;
+        const uint8_t AK8963_ASAZ      = 0x12;
+        const uint8_t AK8963_MODE_POWERDOWN        = 0x00;
+        const uint8_t AK8963_MODE_SINGLE           = 0x01;
+        const uint8_t AK8963_MODE_CONTINUOUS_8HZ   = 0x02;
+        const uint8_t AK8963_MODE_EXTERNAL         = 0x04;
+        const uint8_t AK8963_MODE_CONTINUOUS_100HZ = 0x06;
+        const uint8_t AK8963_MODE_SELFTEST         = 0x08;
+        const uint8_t AK8963_MODE_FUSEROM          = 0x0F;
+        
         const uint8_t SELF_TEST_X_GYRO   = 0x00;
         const uint8_t SELF_TEST_Y_GYRO   = 0x01;
         const uint8_t SELF_TEST_Z_GYRO   = 0x02;
@@ -154,7 +160,6 @@ namespace bird
         // Now simply define MPU9250_ADDRESS as one of the two following depending on your application
         const uint8_t MPU9250_ADDRESS_AD1 = 0x69;  // Device address when ADO = 1
         const uint8_t MPU9250_ADDRESS_AD0 = 0x68;  // Device address when ADO = 0
-        const uint8_t AK8963_ADDRESS      = 0x0C;   // Address of magnetometer
 
 
         static const uint8_t I2C_SLV0_EN        = 0x80;

@@ -1,13 +1,21 @@
+#pragma once
+#include<iostream>
 #include"mpu9250_constants.h"
+#include"../../src/i2c.h"
+#include"../../src/sensor.h"
 #include"../sensor.h"
 #include <wiringPiI2C.h>
 #include <wiringPi.h>
 #include <math.h>
 
+
 namespace bird
 {
     struct Mpu9250 : Sensor
     {
+        const uint8_t imu_address = 0x68;
+        const uint8_t magnetometer_address = 0x0C;
+        
         Mpu9250_Constants constants;
         Mpu9250 ()
         {
@@ -44,6 +52,10 @@ namespace bird
             int16_t x;
             int16_t y;
             int16_t z;
+            Data_ to_data(double resolution)
+            {
+                return {(double) x * resolution, (double) y * resolution , (double) z * resolution};
+            }
         };
         
         struct Calibration_Data_
@@ -69,19 +81,20 @@ namespace bird
             
         };
 
-        
+        Raw_Data_ mag_adjustments_;
         void init_IMU_();
         Raw_Data_ read_accelerometer_raw_();
         Raw_Data_ read_gyroscope_raw_();
         Raw_Data_ read_magnetometer_raw_();
         Data_ read_accelerometer_();
         Data_ read_gyroscope_();
-        void read_magnetometer_();
+        Data_ read_magnetometer_();
         void set_accelerometer_resolution_();
         void set_gyroscope_resolution_();
         void set_magnetometer_resolution_();
         
-        int imu_handler_;
+        I2c imu_ = I2c(imu_address);
+        I2c magnetometer_ = I2c(magnetometer_address);
 
         uint8_t gyroscope_scale_ = constants.GFS_250DPS;
         uint8_t accelerometer_scale_ = constants.AFS_2G;
