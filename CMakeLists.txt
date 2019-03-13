@@ -41,3 +41,11 @@ add_program(sensor
     src/sensors/mpu9250.cpp
     sensors/MPU9250/sensor.cpp)
 target_link_libraries(sensor ${wiringPi_LIB})
+
+
+add_program(gamepad
+    src/utils.cpp
+    controls/gamepad.cpp)
+target_link_libraries(gamepad ${wiringPi_LIB})
+
+

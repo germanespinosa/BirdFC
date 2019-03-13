@@ -14,7 +14,11 @@ namespace bird
         double size();
         double cap(double value);
         bool between(double value);
-        double adjust(double value, Range  range);
+        double adjust(double value, Range range);
+        Range operator-()
+        {
+            return {max,min};
+        }
     };
     struct Timer
     {
@@ -33,5 +37,17 @@ namespace bird
     public:
         double value = 0;
         double change_speed = 0; //units per second
+        Range range;
+        double operator = (double v)
+        {
+            value = v;
+            return v; 
+        }
+        void adjust (double new_value, Range from_range)
+        {
+            value = range.adjust(new_value,from_range);
+            
+        }
+        
     };
 }

@@ -1,5 +1,5 @@
 #include"utils.h"
-
+#include<iostream>
 namespace bird
 {
     
@@ -17,6 +17,7 @@ namespace bird
     }
     double Range::adjust(double value, Range  range)
     {
+        std::cout<< value <<"\n";
         return (value - range.min) / range.size() * size() + min;
     }
     
