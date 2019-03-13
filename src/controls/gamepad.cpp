@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <stdlib.h>
-#include "../src/control.h"
+#include "../control.h"
 
 
 

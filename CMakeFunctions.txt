@@ -1,6 +1,27 @@
 # Turn on CTest
 enable_testing()
 
+find_library(wiringPi_LIB wiringPi)
+
+set (bird_core
+    src/utils.cpp
+    src/control.cpp
+    src/sensor.cpp
+    src/actuator.cpp
+    src/pid.cpp
+    src/bird.cpp
+    src/i2c.cpp
+    src/utils.h
+    src/control.h
+    src/sensor.h
+    src/actuator.h
+    src/pid.h
+    src/bird.h
+    src/i2c.h)
+
+add_library(bird_lib ${bird_core})
+
+
 add_subdirectory(lib/catch EXCLUDE_FROM_ALL)
 
 # Adds a program with the given name and source files, and sets the
@@ -10,6 +31,9 @@ function (add_program name)
     set_property(TARGET ${name} PROPERTY CXX_STANDARD 14)
     set_property(TARGET ${name} PROPERTY CXX_STANDARD_REQUIRED On)
     set_property(TARGET ${name} PROPERTY COMPILE_FLAGS -Wno-psabi)
+    target_link_libraries(${name} bird_lib)
+    target_link_libraries(${name} ${wiringPi_LIB})
+
 endfunction (add_program)
 
 # Adds a test program with the given name and source files

@@ -4,6 +4,7 @@
 #include"actuator.h"
 #include"sensor.h"
 #include"control.h"
+#include"i2c.h"
 
 namespace bird
 {
