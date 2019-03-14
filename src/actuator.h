@@ -44,10 +44,12 @@ namespace bird
     
     struct Actuator
     {
+        Actuator(Actuator_Set actuator_set)
+            : actuator_set_ (actuator_set){};
     public:
         virtual bool update() = 0;
         Actuator_Set &get_actuator_set();
-    private:
+    protected:
         Actuator_Set actuator_set_;
     };    
 };

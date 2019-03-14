@@ -1,65 +1,45 @@
-#include <stdio.h>
-#include <fcntl.h>
-#include <linux/input.h>
-#include <unistd.h>
-#include <signal.h>
-#include <stdlib.h>
-#include "../control.h"
+#include "gamepad.h"
 
 
-
-namespace bird
+bird::Gamepad::Gamepad()
 {
-    struct Gamepad : Control
-    {
-        Gamepad()
-        {
-            char devname[] = "/dev/input/event0";
-            device = open(devname, O_RDONLY);
-            signal(SIGINT, Gamepad::INThandler);
-        }
-        static void INThandler(int i){
-                exit(0);
-        }
+    Gamepad("/dev/input/event0");
+}
+
+bird::Gamepad::Gamepad(std::string device_path)
+{
+    device_handler_ = open(device_path.c_str(), O_RDONLY);
+    signal(SIGINT, Gamepad::INThandler);
+}
+
+void bird::Gamepad::INThandler(int i)
+{
+    exit(0);
+}
         
-        bool update() override
-        {
-            read(device,&ev, sizeof(ev));
-            if(ev.type == 1 && ev.value == 1){
-                    printf("Key: %i State: %i\n",ev.code,ev.value);
-            }
-            printf("Event: %i Code: %i State: %i\n",ev.type,ev.code, ev.value);
-            if (ev.type == 3)
-            {
-                switch (ev.code)
-                {
-                    case Game_Pad_Events_Codes::yaw:
-                        control_set_.yaw.adjust(ev.value,joystick_range);
-                        break;
-                    case Game_Pad_Events_Codes::roll:
-                        control_set_.roll.adjust(ev.value,joystick_range);
-                        break;
-                    case Game_Pad_Events_Codes::pitch:
-                        control_set_.pitch.adjust(ev.value,joystick_range);
-                        break;
-                    case Game_Pad_Events_Codes::vertical:
-                        control_set_.vertical.adjust(ev.value,-joystick_range);
-                        break;
-                }
-            }
-            printf("roll: %f pitch: %f yaw: %f vertical: %f\n",control_set_.roll.value,control_set_.pitch.value, control_set_.yaw.value, control_set_.vertical.value);
-        }
-        struct input_event ev;
-        int device;
+bool bird::Gamepad::update()
+{
+    struct input_event ev;
+    read(device_handler_,&ev, sizeof(ev));
+    if (ev.type == 3)
+    {
         Range joystick_range{0,256};
-        enum Game_Pad_Events_Codes
+        switch (ev.code)
         {
-            yaw   =0,
-            vertical = 1,
-            roll  =2,
-            pitch = 5
-        };
-    };
+            case Game_Pad_Events_Codes_::yaw:
+                control_set_.yaw.adjust(ev.value,joystick_range);
+                break;
+            case Game_Pad_Events_Codes_::roll:
+                control_set_.roll.adjust(ev.value,joystick_range);
+                break;
+            case Game_Pad_Events_Codes_::pitch:
+                control_set_.pitch.adjust(ev.value,joystick_range);
+                break;
+            case Game_Pad_Events_Codes_::vertical:
+                control_set_.vertical.adjust(ev.value,-joystick_range);
+                break;
+        }
+    }
 }
 
 int main()

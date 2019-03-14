@@ -1,9 +1,7 @@
 #pragma once
-#include<iostream>
-#include"mpu9250_constants.h"
-#include"../../src/i2c.h"
-#include"../../src/sensor.h"
-#include"../sensor.h"
+#include <iostream>
+#include "mpu9250_constants.h"
+#include <bird.h>
 #include <wiringPiI2C.h>
 #include <wiringPi.h>
 #include <math.h>

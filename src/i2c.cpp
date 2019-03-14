@@ -6,6 +6,10 @@ namespace bird
     {
         device_handler_ = wiringPiI2CSetup(device_address);
     }
+    void I2c::set_register_address(uint8_t register_address)
+    {
+        current_register_address_ = register_address;
+    }
     uint8_t I2c::read_byte()
     {
         return wiringPiI2CReadReg8(device_handler_,current_register_address_++);
@@ -23,6 +27,28 @@ namespace bird
     {
         current_register_address_ = register_address;
         write_byte(data);
+    }
+    void I2c::write_16(uint16_t data)
+    {
+      int8_t *rdata = (int8_t *)&data;
+      write_byte(rdata[1]);
+      write_byte(rdata[0]);
+    }
+    void I2c::write_16(uint8_t register_address, uint16_t data)
+    {
+        current_register_address_ = register_address;
+        write_16(data);
+    }
+    void I2c::write_16x(uint16_t data)
+    {
+      int8_t *rdata = (int8_t *)&data;
+      write_byte(rdata[0]);
+      write_byte(rdata[1]);
+    }
+    void I2c::write_16x(uint8_t register_address, uint16_t data)
+    {
+        current_register_address_ = register_address;
+        write_16(data);
     }
     void I2c::read_data(uint8_t register_address, int count, uint8_t *buffer)
     {

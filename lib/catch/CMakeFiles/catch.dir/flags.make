@@ -6,5 +6,5 @@ CXX_FLAGS =   -std=gnu++14
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/pi/BirdFC/lib/catch/src 
+CXX_INCLUDES = -I/home/pi/BirdFC/src -I/home/pi/BirdFC/lib/catch/src 
 
