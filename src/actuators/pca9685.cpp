@@ -21,7 +21,7 @@ bool bird::Pca9685::update()
     {
         uint16_t pwm = range.adjust(p.output_value,{0,1});
         i2c_.write_16x(pwm);
-        i2c_.write_16x(4095-pwm);
+        i2c_.write_16x(4095);
         std::cout << p.output_value << "\t";
     }
     std::cout << "\n";
