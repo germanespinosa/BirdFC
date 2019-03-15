@@ -1,11 +1,11 @@
-#include "screen.h"
+#include "std_out.h"
 
-bird::Screen::Screen()
+bird::Std_Out::Std_Out()
     : bird::Actuator(bird::Actuator_Set::plus())
 {
 }
 
-bool bird::Screen::update()
+bool bird::Std_Out::update()
 {
     for (bird::Propeller p : actuator_set_.propellers)
     {
@@ -16,5 +16,5 @@ bool bird::Screen::update()
 }
 int main()
 {
-    bird::Screen s;
+    bird::Std_Out s;
 }

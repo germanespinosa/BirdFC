@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <stdlib.h>
-#include <bird.h>
+#include "../core/bird.h"
 
 namespace bird
 {
