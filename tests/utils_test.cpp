@@ -1,5 +1,5 @@
 #include<catch.h>
-#include"../src/utils.h"
+#include"../src/core/utils.h"
 
 TEST_CASE("range small")
 {

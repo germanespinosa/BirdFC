@@ -1,5 +1,5 @@
 #include<catch.h>
-#include"../src/sensor.h"
+#include"../src/core/sensor.h"
 
 TEST_CASE("sensor_data update_value")
 {

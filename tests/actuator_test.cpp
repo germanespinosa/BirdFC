@@ -1,5 +1,5 @@
 #include<catch.h>
-#include"../src/actuator.h"
+#include"../src/core/actuator.h"
 
 TEST_CASE("propeller ratios")
 {

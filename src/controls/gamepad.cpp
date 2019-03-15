@@ -41,10 +41,3 @@ bool bird::Gamepad::update()
         }
     }
 }
-
-int main()
-{
-    bird::Gamepad g;
-    while(1)
-    g.update();
-}
