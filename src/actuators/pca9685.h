@@ -7,6 +7,7 @@ namespace bird
 {
     struct Pca9685 : Actuator
     {
+        Pca9685();
         Pca9685(uint8_t address);
         bool update() override;
     private:

@@ -1,5 +1,10 @@
 #include "pca9685.h"
 
+bird::Pca9685::Pca9685()
+    : bird::Pca9685(0x40)
+{
+}
+
 bird::Pca9685::Pca9685(uint8_t address)
     : bird::Actuator(bird::Actuator_Set::plus())
     , i2c_(bird::I2c(address))
@@ -21,8 +26,4 @@ bool bird::Pca9685::update()
     }
     std::cout << "\n";
     return true;
-}
-int main()
-{
-    bird::Pca9685 s = bird::Pca9685(0x40);
 }

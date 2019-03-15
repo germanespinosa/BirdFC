@@ -14,7 +14,3 @@ bool bird::Std_Out::update()
     std::cout << "\n";
     return true;
 }
-int main()
-{
-    bird::Std_Out s;
-}
