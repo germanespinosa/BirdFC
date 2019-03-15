@@ -33,12 +33,20 @@ function (add_program name)
     set_property(TARGET ${name} PROPERTY COMPILE_FLAGS -Wno-psabi)
     target_link_libraries(${name} bird_lib)
     target_link_libraries(${name} ${wiringPi_LIB})
+    set_target_properties(${name}
+        PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "bin/"
+    )
 
 endfunction (add_program)
 
 # Adds a test program with the given name and source files
 function (add_test_program name)
     add_program(${name} ${ARGN})
+    set_target_properties(${name}
+        PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY ".tests/"
+    )
     target_link_libraries(${name} catch)
     add_test(Test_${name} ${name})
     add_custom_command(TARGET ${name}
