@@ -15,6 +15,10 @@ namespace bird
         void update();
         void update_value(double new_change_speed);
         void update_change_speed(double new_value);
+        double operator = (double v)
+        {
+            variable = v ;
+        }
     private:
         Timer timer_;
     };
