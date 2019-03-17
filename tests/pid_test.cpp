@@ -5,7 +5,7 @@ TEST_CASE("pid error")
 {
     bird::Pid_Configuration config = {{1,{-10,10}},{1,{-10,10}},{1,{-10,10}}};
     bird::Sensor_Data sensor_data;
-    bird::Variable target{0,0,{0,0}};
+    bird::Variable target;
     bird::Pid_Set set_init(sensor_data,target,config);
     bird::Pid pid(set_init);
     bird::Pid_Set &set = pid.get_pid_set();
@@ -25,7 +25,7 @@ TEST_CASE("pid proportional")
 {
     bird::Pid_Configuration config = {{1,{-10,10}},{1,{-10,10}},{1,{-10,10}}};
     bird::Sensor_Data sensor_data;
-    bird::Variable target{0,0,{0,0}};
+    bird::Variable target;
     bird::Pid_Set set_init(sensor_data,target,config);
     bird::Pid pid(set_init);
     bird::Pid_Set &set = pid.get_pid_set();
@@ -42,7 +42,7 @@ TEST_CASE("pid derivative")
 {
     bird::Pid_Configuration config = {{1,{-10,10}},{1,{-10,10}},{1,{-10,10}}};
     bird::Sensor_Data sensor_data;
-    bird::Variable target{0,0,{0,0}};
+    bird::Variable target;
     bird::Pid_Set set_init(sensor_data,target,config);
     bird::Pid pid(set_init);
     bird::Pid_Set &set = pid.get_pid_set();
@@ -59,7 +59,7 @@ TEST_CASE("pid integral")
 {
     bird::Pid_Configuration config = {{1,{-10,10}},{1,{-10,10}},{1,{-10,10}}};
     bird::Sensor_Data sensor_data;
-    bird::Variable target{0,0,{0,0}};
+    bird::Variable target;
     bird::Pid_Set set_init(sensor_data,target,config);
     bird::Pid pid(set_init);
     bird::Pid_Set &set = pid.get_pid_set();
@@ -81,7 +81,7 @@ TEST_CASE("pid proportional range")
 {
     bird::Pid_Configuration config = {{1,{-10,10}},{1,{-10,10}},{1,{-10,10}}};
     bird::Sensor_Data sensor_data;
-    bird::Variable target{0,0,{0,0}};
+    bird::Variable target;
     bird::Pid_Set set_init(sensor_data,target,config);
     bird::Pid pid(set_init);
     bird::Pid_Set &set = pid.get_pid_set();
@@ -101,7 +101,7 @@ TEST_CASE("pid derivative range")
 {
     bird::Pid_Configuration config = {{1,{-10,10}},{1,{-10,10}},{1,{-10,10}}};
     bird::Sensor_Data sensor_data;
-    bird::Variable target{0,0,{0,0}};
+    bird::Variable target;
     bird::Pid_Set set_init(sensor_data,target,config);
     bird::Pid pid(set_init);
     bird::Pid_Set &set = pid.get_pid_set();
@@ -121,7 +121,7 @@ TEST_CASE("pid integral range")
 {
     bird::Pid_Configuration config = {{1,{-10,10}},{1,{-10,10}},{1,{-10,10}}};
     bird::Sensor_Data sensor_data;
-    bird::Variable target{0,0,{0,0}};
+    bird::Variable target;
     bird::Pid_Set set_init(sensor_data,target,config);
     bird::Pid pid(set_init);
     bird::Pid_Set &set = pid.get_pid_set();

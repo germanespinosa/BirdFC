@@ -13,7 +13,7 @@ namespace bird
     }
     bool Range::between(double value)
     {
-        return value<=max && value>=min;
+        return value <= max && value >= min;
     }
     double Range::adjust(double value, Range  range)
     {
@@ -39,5 +39,10 @@ namespace bird
         gettimeofday(&current_time_, NULL);
         return (double) (current_time_.tv_usec - start_time_.tv_usec) / 1000000 +
                (double) (current_time_.tv_sec - start_time_.tv_sec);
+    }
+    double Complementary_Filter::update(double first, double second)
+    {
+        value = (first * rate) + (second * (1-rate));
+        return value;
     }
 }

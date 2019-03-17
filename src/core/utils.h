@@ -5,7 +5,6 @@ namespace bird
 {
     struct Range
     {
-        public:
         Range(double min_value, double max_value)
             :min(min_value)
             ,max(max_value){}
@@ -35,9 +34,12 @@ namespace bird
     struct Variable
     {
     public:
+        Variable (){}
+        Variable (Range range)
+            : range (range) {}
         double value = 0;
-        double change_speed = 0; //units per second
-        Range range;
+        double change_speed = 0;
+        Range range{0,0};
         double operator = (double v)
         {
             value = v;
@@ -46,8 +48,49 @@ namespace bird
         void adjust (double new_value, Range from_range)
         {
             value = range.adjust(new_value,from_range);
-            
         }
-        
+        bool operator == ( double v)
+        {
+            return v == value;
+        }
+        bool operator == ( Variable v)
+        {
+            return v.value == value;
+        }
     };
+    struct Low_Pass_Filter : public Variable
+    {
+        Low_Pass_Filter (Range range, double update_rate)
+            : Variable (range)
+            , update_rate (update_rate) {};
+        double update_rate = 0;
+        double operator = (double v)
+        {
+            value = v;
+            return v; 
+        }
+        double operator += (double v)
+        {
+            value = (v * update_rate) + (value * (1 - update_rate));
+            return value; 
+        }
+        double operator += (Variable v)
+        {
+            return *(this) += v.value; 
+        }
+    };
+    struct Complementary_Filter : public Variable
+    {
+        Complementary_Filter (Range range, double rate)
+            : Variable (range)
+            , rate (rate) {};
+        double rate = 0;
+        double update(double first, double second);
+        double operator = (double v)
+        {
+            value = v;
+            return v; 
+        }
+    };
+    
 }

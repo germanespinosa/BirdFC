@@ -144,13 +144,10 @@ namespace bird
       uint8_t magBuf[7];
       magnetometer_.read_data(constants.AK8963_XOUT_L,7,magBuf);
       Raw_Data_ raw;
-/*      raw.x = magnetometer_.read_16x(constants.AK8963_XOUT_L );
-      raw.y = magnetometer_.read_16x(constants.AK8963_YOUT_L );
-      raw.z = magnetometer_.read_16x(constants.AK8963_ZOUT_L );*/
       raw.x =   (((int16_t) magBuf[1]) << 8) | magBuf[0];
       raw.y =   (((int16_t) magBuf[3]) << 8) | magBuf[2];
       raw.z =   (((int16_t) magBuf[5]) << 8) | magBuf[4];
-      bool overflow = magBuf[6];//magnetometer_.read_byte() & 0x08;
+      bool overflow = magBuf[6] & 0x08;
       if (overflow)
           std::cout << "overflown\n";
       return raw;
@@ -221,7 +218,7 @@ namespace bird
     {
         Mpu9250::Data_ accelerometer = read_accelerometer_();
         Mpu9250::Data_ gyroscope = read_gyroscope_();
-        read_magnetometer_();
+        //read_magnetometer_();
         sensor_set_.roll.variable.value = atan2(accelerometer.x, fabs(accelerometer.z));
         sensor_set_.roll.variable.change_speed = gyroscope.x;
         sensor_set_.pitch.variable.value = atan2(accelerometer.y, fabs(accelerometer.z));

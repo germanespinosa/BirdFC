@@ -76,3 +76,29 @@ TEST_CASE("timer dynamic")
     while(timer.elapsed() <.01);
     CHECK(timer.restart() < .1);
 }
+
+TEST_CASE("composite filter")
+{
+    bird::Complementary_Filter cf1 = bird::Complementary_Filter({-1,1},.5);
+    cf1.update(-1,1);
+    CHECK(cf1.value == 0);
+    bird::Complementary_Filter cf2 = bird::Complementary_Filter({-1,1},.25);
+    cf2.update(-1,1);
+    CHECK(cf2.value == 0.5);
+    bird::Complementary_Filter cf3 = bird::Complementary_Filter({-1,1},.9);
+    cf3.update(-1,1);
+    CHECK(cf3.value == -0.8);
+}
+
+TEST_CASE("low pass filter")
+{
+    bird::Low_Pass_Filter lpf1 = bird::Low_Pass_Filter({-1,1},.5);
+    lpf1=.5;
+    CHECK(lpf1.value == .5);
+    lpf1+=.5;
+    CHECK(lpf1.value == .5);
+    lpf1+=1;
+    CHECK(lpf1.value == .75);
+    lpf1+=-.75;
+    CHECK(lpf1.value == 0);
+}

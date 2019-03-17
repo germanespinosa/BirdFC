@@ -5,12 +5,12 @@ namespace bird
     
     struct Control_Set
     {
-        Variable roll{0,0,{-1,1}};
-        Variable pitch{0,0,{-1,1}};
-        Variable yaw{0,0,{-1,1}};
-        Variable lateral{0,0,{-1,1}};      // Left - Right
-        Variable longitudinal{0,0,{-1,1}}; // Backward - Forward
-        Variable vertical{0,0,{-1,1}};     // Down - Up
+        Variable roll         = Variable ({-1,1});
+        Variable pitch        = Variable ({-1,1});
+        Variable yaw          = Variable ({-1,1});
+        Variable lateral      = Variable ({-1,1}); // Left - Right
+        Variable longitudinal = Variable ({-1,1}); // Backward - Forward
+        Variable vertical     = Variable ({-1,1}); // Down - Up
     };
     
     struct Control
