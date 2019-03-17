@@ -2,7 +2,6 @@
 #include<iostream>
 namespace bird
 {
-    
     double Range::size()
     {
         return max-min;

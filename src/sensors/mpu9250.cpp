@@ -2,6 +2,27 @@
 
 namespace bird
 {
+    bool Mpu9250::update()
+    {
+        static Low_Pass_Filter lpf_roll({-PI,PI},.01);
+        static Low_Pass_Filter lpf_pitch({-PI,PI},.01);
+
+        Mpu9250::Data_ accelerometer = read_accelerometer_();
+        Mpu9250::Data_ gyroscope = read_gyroscope_();
+        //read_magnetometer_();
+        
+        
+        sensor_set_.roll = atan2(accelerometer.x, fabs(accelerometer.z));
+        sensor_set_.roll.variable.change_speed = gyroscope.x;
+        sensor_set_.pitch = atan2(accelerometer.y, fabs(accelerometer.z));
+        sensor_set_.pitch.variable.change_speed = gyroscope.y;
+        sensor_set_.yaw.update_value(gyroscope.z);
+/*        sensor_set_.vertical.update_value(accelerometer.z);
+        sensor_set_.longitudinal.update_value(accelerometer.x);
+        sensor_set_.lateral.update_value(accelerometer.y);*/
+    }
+    
+
     void Mpu9250::init_IMU_()
     {
         // wake up device
@@ -177,16 +198,16 @@ namespace bird
         // Here's a bit of an algorith to calculate DPS/(ADC tick) based on that
         // 2-bit value:
         case constants.GFS_250DPS:
-          gyroscope_resolution_ = 250.0f / 32768.0f / 360.0f * 2 * constants.PI;
+          gyroscope_resolution_ = 250.0f / 32768.0f / 360.0f * 2 * PI;
           break;
         case constants.GFS_500DPS:
-          gyroscope_resolution_ = 500.0f / 32768.0f / 360.0f * 2 * constants.PI;
+          gyroscope_resolution_ = 500.0f / 32768.0f / 360.0f * 2 * PI;
           break;
         case constants.GFS_1000DPS:
-          gyroscope_resolution_ = 1000.0f / 32768.0f / 360.0f * 2 * constants.PI;
+          gyroscope_resolution_ = 1000.0f / 32768.0f / 360.0f * 2 * PI;
           break;
         case constants.GFS_2000DPS:
-          gyroscope_resolution_ = 2000.0f / 32768.0f / 360.0f * 2 * constants.PI;
+          gyroscope_resolution_ = 2000.0f / 32768.0f / 360.0f * 2 * PI;
           break;
       }
     }
@@ -214,23 +235,6 @@ namespace bird
       }
     }
     
-    bool Mpu9250::update()
-    {
-        Mpu9250::Data_ accelerometer = read_accelerometer_();
-        Mpu9250::Data_ gyroscope = read_gyroscope_();
-        //read_magnetometer_();
-        
-        sensor_set_.roll = atan2(accelerometer.x, fabs(accelerometer.z));
-        sensor_set_.roll.variable.change_speed = gyroscope.x;
-        sensor_set_.pitch = atan2(accelerometer.y, fabs(accelerometer.z));
-        sensor_set_.pitch.variable.change_speed = gyroscope.y;
-        sensor_set_.yaw.update_value(gyroscope.z);
-/*        sensor_set_.vertical.update_value(accelerometer.z);
-        sensor_set_.longitudinal.update_value(accelerometer.x);
-        sensor_set_.lateral.update_value(accelerometer.y);*/
-    }
-    
-
     // Function which accumulates gyro and accelerometer data after device
     // initialization. It calculates the average of the at-rest readings and then
     // loads the resulting offsets into accelerometer and gyro bias registers.

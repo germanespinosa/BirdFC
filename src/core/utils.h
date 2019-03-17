@@ -1,8 +1,11 @@
 #pragma once
 #include<algorithm>
 #include <sys/time.h>
+#include <math.h>
 namespace bird
 {
+    const double PI = M_PI;
+
     struct Range
     {
         Range(double min_value, double max_value)

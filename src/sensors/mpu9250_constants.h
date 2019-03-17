@@ -1,13 +1,10 @@
 #pragma once
 #include <cstdint> 
-#include <math.h>
 
 namespace bird
 {
     struct Mpu9250_Constants
     {
-        //PI
-        const double PI                  = M_PI;
         //Magnetometer Registers
         const uint8_t AK8963_ADDRESS   = 0x0C;
         const uint8_t WHO_AM_I_AK8963  = 0x00; // should return 0x48
