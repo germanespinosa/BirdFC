@@ -14,6 +14,7 @@ namespace bird
         , vertical_ (Pid(Pid_Set(sensor_set_.vertical,control_set_.vertical,bird_set.vertical)))
         , actuator_(actuator_)
     {
+        // spawn threads for the independent sensor and control update
         sensor_thread_ = std::thread (update_sensor_, std::ref(*this));
         control_thread_ = std::thread (update_control_, std::ref(*this));
     }
@@ -61,7 +62,9 @@ namespace bird
                !control_timer_.time_out(.5))
         {
             {
-                std::mutex mtx; // lock the results while they are been used
+                // lock the results while they are been used
+                // to compute the outputs of the pids controllers
+                std::mutex mtx; 
                 roll_.update();
                 pitch_.update();
                 yaw_.update();
@@ -69,6 +72,8 @@ namespace bird
                 longitudinal_.update();
                 vertical_.update();
             }
+            // use the pids outputs to update the 
+            // propeller values
             for (Propeller propeller:actuator_set_.propellers)
             {
                 double output = 0;
@@ -80,6 +85,7 @@ namespace bird
                 output += vertical_pid * propeller.ratios.vertical;
                 propeller.output_value = output;
             }
+            // update the actuator 
             if (actuator_.update())
             {
                 actuator_timer_.restart();
