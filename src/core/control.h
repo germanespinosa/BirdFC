@@ -2,7 +2,6 @@
 
 namespace bird
 {
-    
     struct Control_Set
     {
         Variable roll         = Variable ({-1,1});
