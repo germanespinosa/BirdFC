@@ -46,7 +46,12 @@ namespace bird
 
     void Bird::run()
     {
-        
+        double &roll_pid = roll_.get_pid_set().value;
+        double &pitch_pid = pitch_.get_pid_set().value;
+        double &yaw_pid = yaw_.get_pid_set().value;
+        double &lateral_pid = lateral_.get_pid_set().value;
+        double &longitudinal_pid = longitudinal_.get_pid_set().value;
+        double &vertical_pid = vertical_.get_pid_set().value;
         Actuator_Set &actuator_set_ = actuator_.get_actuator_set();
         sensor_timer_.restart();
         control_timer_.restart();
@@ -65,17 +70,18 @@ namespace bird
                 vertical_.update();
             }
             {
-            for (Propeller propeller:actuator_set_.propellers)
-            {
-                double output = 0;
-                output += roll_.get_pid_set().value * propeller.ratios.roll;
-                output += pitch_.get_pid_set().value * propeller.ratios.pitch;
-                output += yaw_.get_pid_set().value * propeller.ratios.yaw;
-                output += lateral_.get_pid_set().value * propeller.ratios.lateral;
-                output += longitudinal_.get_pid_set().value * propeller.ratios.longitudinal;
-                output += vertical_.get_pid_set().value * propeller.ratios.vertical;
-                propeller.output_value = output;
-            }
+                std::mutex mtx;
+                for (Propeller propeller:actuator_set_.propellers)
+                {
+                    double output = 0;
+                    output += roll_pid * propeller.ratios.roll;
+                    output += pitch_pid * propeller.ratios.pitch;
+                    output += yaw_pid * propeller.ratios.yaw;
+                    output += lateral_pid * propeller.ratios.lateral;
+                    output += longitudinal_pid * propeller.ratios.longitudinal;
+                    output += vertical_pid * propeller.ratios.vertical;
+                    propeller.output_value = output;
+                }
             }
             if (actuator_.update())
             {
