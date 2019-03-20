@@ -50,6 +50,7 @@ namespace bird
         Actuator_Set &actuator_set_ = actuator_.get_actuator_set();
         sensor_timer_.restart();
         control_timer_.restart();
+        actuator_timer_.restart();
         while( !actuator_timer_.time_out(.5) &&
                !sensor_timer_.time_out(.5) && 
                !control_timer_.time_out(.5))
@@ -63,6 +64,7 @@ namespace bird
                 longitudinal_.update();
                 vertical_.update();
             }
+            {
             for (Propeller propeller:actuator_set_.propellers)
             {
                 double output = 0;
@@ -73,6 +75,7 @@ namespace bird
                 output += longitudinal_.get_pid_set().value * propeller.ratios.longitudinal;
                 output += vertical_.get_pid_set().value * propeller.ratios.vertical;
                 propeller.output_value = output;
+            }
             }
             if (actuator_.update())
             {
