@@ -39,6 +39,10 @@ namespace bird
         return (double) (current_time_.tv_usec - start_time_.tv_usec) / 1000000 +
                (double) (current_time_.tv_sec - start_time_.tv_sec);
     }
+    bool Timer::time_out(double secs)
+    {
+        return secs<elapsed();
+    }
     double Complementary_Filter::update(double first, double second)
     {
         value = (first * rate) + (second * (1-rate));

@@ -28,6 +28,7 @@ namespace bird
         Timer(double secs);
         double restart();
         double elapsed();
+        bool time_out(double secs);
     private:
         timeval start_time_;
         timeval current_time_;

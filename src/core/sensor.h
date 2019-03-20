@@ -39,5 +39,5 @@ namespace bird
         virtual bool update() = 0;
         Sensor_Set &get_sensor_set();
         Sensor_Set sensor_set_;
-    };    
+    };
 }

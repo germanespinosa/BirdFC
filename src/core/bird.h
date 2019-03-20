@@ -1,4 +1,7 @@
-#include <iostream>
+#include <functional>
+#include<iostream>
+#include<thread>
+#include<mutex>
 #include"utils.h"
 #include"pid.h"
 #include"actuator.h"
@@ -23,13 +26,20 @@ namespace bird
     {
     public:
         Bird (Sensor &sensor, Control &control, Actuator &actuator, Bird_Set bird_set);
-        
         void run();
         
     private:
-        Actuator &actuator_;
+        std::thread sensor_thread_;
+        std::thread control_thread_; 
+        static void update_sensor_(Bird &bird);
+        static void update_control_(Bird &bird);
+        Timer sensor_timer_ = 0;
+        Timer control_timer_ = 0;
         Sensor &sensor_;
         Control &control_;
+        Sensor_Set sensor_set_;
+        Control_Set control_set_;
+        Actuator &actuator_;
         Pid roll_;
         Pid pitch_;
         Pid yaw_;
