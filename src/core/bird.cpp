@@ -69,19 +69,16 @@ namespace bird
                 longitudinal_.update();
                 vertical_.update();
             }
+            for (Propeller propeller:actuator_set_.propellers)
             {
-                std::mutex mtx;
-                for (Propeller propeller:actuator_set_.propellers)
-                {
-                    double output = 0;
-                    output += roll_pid * propeller.ratios.roll;
-                    output += pitch_pid * propeller.ratios.pitch;
-                    output += yaw_pid * propeller.ratios.yaw;
-                    output += lateral_pid * propeller.ratios.lateral;
-                    output += longitudinal_pid * propeller.ratios.longitudinal;
-                    output += vertical_pid * propeller.ratios.vertical;
-                    propeller.output_value = output;
-                }
+                double output = 0;
+                output += roll_pid * propeller.ratios.roll;
+                output += pitch_pid * propeller.ratios.pitch;
+                output += yaw_pid * propeller.ratios.yaw;
+                output += lateral_pid * propeller.ratios.lateral;
+                output += longitudinal_pid * propeller.ratios.longitudinal;
+                output += vertical_pid * propeller.ratios.vertical;
+                propeller.output_value = output;
             }
             if (actuator_.update())
             {
