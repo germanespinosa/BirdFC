@@ -33,12 +33,13 @@ namespace bird
         std::thread control_thread_; 
         static void update_sensor_(Bird &bird);
         static void update_control_(Bird &bird);
-        Timer sensor_timer_ = 0;
-        Timer control_timer_ = 0;
+        Timer sensor_timer_;
+        Timer control_timer_;
         Sensor &sensor_;
         Control &control_;
         Sensor_Set sensor_set_;
         Control_Set control_set_;
+        Timer actuator_timer_;
         Actuator &actuator_;
         Pid roll_;
         Pid pitch_;

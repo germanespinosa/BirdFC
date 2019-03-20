@@ -50,7 +50,9 @@ namespace bird
         Actuator_Set &actuator_set_ = actuator_.get_actuator_set();
         sensor_timer_.restart();
         control_timer_.restart();
-        while(sensor_timer_.time_out(.5) && control_timer_.time_out(.5))
+        while( !actuator_timer_.time_out(.5) &&
+               !sensor_timer_.time_out(.5) && 
+               !control_timer_.time_out(.5))
         {
             {
                 std::mutex mtx; // lock the results while they are been used
@@ -71,6 +73,10 @@ namespace bird
                 output += longitudinal_.get_pid_set().value * propeller.ratios.longitudinal;
                 output += vertical_.get_pid_set().value * propeller.ratios.vertical;
                 propeller.output_value = output;
+            }
+            if (actuator_.update())
+            {
+                actuator_timer_.restart();
             }
         }
     }
