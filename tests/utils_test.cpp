@@ -77,6 +77,14 @@ TEST_CASE("timer dynamic")
     CHECK(timer.restart() < .1);
 }
 
+TEST_CASE("timer time_out")
+{
+    bird::Timer timer;
+    CHECK(!timer.time_out(.01));
+    while(timer.elapsed() <.01);
+    CHECK(timer.time_out(.01));
+}
+
 TEST_CASE("composite filter")
 {
     bird::Complementary_Filter cf1 = bird::Complementary_Filter({-1,1},.5);

@@ -41,7 +41,7 @@ namespace bird
     }
     bool Timer::time_out(double secs)
     {
-        return secs<elapsed();
+        return secs <= elapsed();
     }
     double Complementary_Filter::update(double first, double second)
     {
