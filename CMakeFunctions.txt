@@ -7,6 +7,7 @@ set (bird_core
     src/core/utils.cpp
     src/core/control.cpp
     src/core/sensor.cpp
+    src/core/imu.cpp
     src/core/actuator.cpp
     src/core/pid.cpp
     src/core/bird.cpp
@@ -14,6 +15,7 @@ set (bird_core
     src/core/utils.h
     src/core/control.h
     src/core/sensor.h
+    src/core/imu.h
     src/core/actuator.h
     src/core/pid.h
     src/core/bird.h
