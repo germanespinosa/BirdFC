@@ -1,3 +1,4 @@
+#pragma once
 #include <functional>
 #include<iostream>
 #include<thread>
@@ -29,6 +30,7 @@ namespace bird
         void run();
         
     private:
+        bool active_ = true;
         std::thread sensor_thread_;
         std::thread control_thread_; 
         static void update_sensor_(Bird &bird);

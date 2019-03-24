@@ -16,7 +16,8 @@ namespace bird
         
         Mpu9250_Constants constants;
         Mpu9250 ()
-            :accelerometer_range (get_accelerometer_range(accelerometer_scale_))
+            :Imu()
+            ,accelerometer_range (get_accelerometer_range(accelerometer_scale_))
             ,gyroscope_range (get_gyroscope_range(gyroscope_scale_))
             ,magnetometer_range (get_magnetometer_range(magnetometer_scale_))
         {

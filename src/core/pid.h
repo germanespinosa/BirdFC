@@ -12,6 +12,10 @@ namespace bird
     public:
         double multiplier;
         Range range{0,0};
+        double operator=(double v)
+        {
+            return multiplier = v;
+        }
     };
     struct Pid_Configuration
     {

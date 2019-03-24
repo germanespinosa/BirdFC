@@ -1,3 +1,4 @@
+#pragma once
 #include <cstdint>
 #include <wiringPiI2C.h>
 #include <wiringPi.h>

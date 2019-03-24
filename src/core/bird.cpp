@@ -12,7 +12,7 @@ namespace bird
         , lateral_ (Pid(Pid_Set(sensor_set_.lateral,control_set_.lateral,bird_set.lateral)))
         , longitudinal_ (Pid(Pid_Set(sensor_set_.longitudinal,control_set_.longitudinal,bird_set.longitudinal)))
         , vertical_ (Pid(Pid_Set(sensor_set_.vertical,control_set_.vertical,bird_set.vertical)))
-        , actuator_(actuator_)
+        , actuator_(actuator)
     {
         // spawn threads for the independent sensor and control update
         sensor_thread_ = std::thread (update_sensor_, std::ref(*this));
@@ -21,7 +21,7 @@ namespace bird
     
     void Bird::update_sensor_ (Bird &bird)
     {
-        while(true)
+        while(bird.active_)
         {
             if (bird.sensor_.update())
             {
@@ -34,7 +34,7 @@ namespace bird
 
     void Bird::update_control_ (Bird &bird)
     {
-        while(true)
+        while(bird.active_)
         {
             if (bird.control_.update())
             {
@@ -68,6 +68,7 @@ namespace bird
             }
             // use the pids outputs to update the 
             // propeller values
+            int i=0;
             for (Propeller propeller:actuator_set_.propellers)
             {
                 double output = 0;
@@ -85,5 +86,8 @@ namespace bird
                 actuator_timer_.restart();
             }
         }
+        active_=false;
+        sensor_thread_.join();
+        control_thread_.join();
     }
 }

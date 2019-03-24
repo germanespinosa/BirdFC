@@ -6,5 +6,6 @@ namespace bird
     {
         Std_Out();
         bool update() override;
+        Timer timer_;
     };
 }

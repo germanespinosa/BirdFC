@@ -4,6 +4,7 @@ namespace bird
 {
     void Mpu9250::init_IMU_()
     {
+        std::cout<<"there2\n";
         imu_.write_byte( constants.PWR_MGMT_1, 0x00);
         delay(100); // Wait for all registers to reset
         imu_.write_byte(constants.PWR_MGMT_1, 0x01);

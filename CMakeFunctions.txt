@@ -28,12 +28,11 @@ set (bird_actuators
     src/actuators/std_out.cpp
     src/actuators/pca9685.cpp)
 
-add_library(bird_lib 
+add_library(bird SHARED 
     ${bird_core} 
     ${bird_sensors}
     ${bird_controls}
     ${bird_actuators})
-
 
 add_subdirectory(lib/catch EXCLUDE_FROM_ALL)
 
@@ -44,13 +43,13 @@ function (add_program name)
     set_property(TARGET ${name} PROPERTY CXX_STANDARD 14)
     set_property(TARGET ${name} PROPERTY CXX_STANDARD_REQUIRED On)
     set_property(TARGET ${name} PROPERTY COMPILE_FLAGS -Wno-psabi)
-    target_link_libraries(${name} bird_lib)
-    target_link_libraries(${name} ${wiringPi_LIB})
     set_target_properties(${name}
         PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "bin/"
     )
-
+#    target_ 
+    target_link_libraries(${name} bird)
+    target_link_libraries(${name} ${wiringPi_LIB})
 endfunction (add_program)
 
 # Adds a test program with the given name and source files

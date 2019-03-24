@@ -23,5 +23,6 @@ namespace bird
         double mag_x = magnetometer.x * cos(sensor_set_.pitch) + magnetometer.y * sin(sensor_set_.roll) * sin(sensor_set_.pitch) + magnetometer.z * cos(sensor_set_.roll) * sin(sensor_set_.pitch);  
         double mag_y = magnetometer.y * cos(sensor_set_.roll) - magnetometer.z * sin(sensor_set_.roll);
         sensor_set_.yaw = atan2(-mag_y,mag_x);
+        return true;
     }
 }
