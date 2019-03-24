@@ -47,12 +47,6 @@ namespace bird
 
     void Bird::run()
     {
-        double &roll_pid = roll_.get_pid_set().value;
-        double &pitch_pid = pitch_.get_pid_set().value;
-        double &yaw_pid = yaw_.get_pid_set().value;
-        double &lateral_pid = lateral_.get_pid_set().value;
-        double &longitudinal_pid = longitudinal_.get_pid_set().value;
-        double &vertical_pid = vertical_.get_pid_set().value;
         Actuator_Set &actuator_set_ = actuator_.get_actuator_set();
         sensor_timer_.restart();
         control_timer_.restart();
@@ -77,13 +71,13 @@ namespace bird
             for (Propeller propeller:actuator_set_.propellers)
             {
                 double output = 0;
-                output += roll_pid * propeller.ratios.roll;
-                output += pitch_pid * propeller.ratios.pitch;
-                output += yaw_pid * propeller.ratios.yaw;
-                output += lateral_pid * propeller.ratios.lateral;
-                output += longitudinal_pid * propeller.ratios.longitudinal;
-                output += vertical_pid * propeller.ratios.vertical;
-                propeller.output_value = output;
+                output += roll_ * propeller.ratios.roll;
+                output += pitch_ * propeller.ratios.pitch;
+                output += yaw_ * propeller.ratios.yaw;
+                output += lateral_ * propeller.ratios.lateral;
+                output += longitudinal_ * propeller.ratios.longitudinal;
+                output += vertical_ * propeller.ratios.vertical;
+                propeller = output;
             }
             // update the actuator 
             if (actuator_.update())

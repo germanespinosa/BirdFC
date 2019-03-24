@@ -61,6 +61,10 @@ namespace bird
         {
             return v.value == value;
         }
+        operator double()
+        {
+            return value;
+        }
     };
     struct Low_Pass_Filter : public Variable
     {

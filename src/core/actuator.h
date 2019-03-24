@@ -24,6 +24,10 @@ namespace bird
         Propeller(double angle, Rotation rotation);
         Output_Ratios ratios;
         double output_value;
+        double operator = (double v)
+        {
+            return output_value = v;
+        }
     };
 
     struct Actuator_Set

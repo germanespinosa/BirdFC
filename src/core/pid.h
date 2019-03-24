@@ -34,6 +34,10 @@ namespace bird
         Sensor_Data &sensor_data;
         Variable &target;
         double value = 0;
+        operator double()
+        {
+            return value;
+        }
     };
 
     struct Pid
@@ -42,6 +46,10 @@ namespace bird
         Pid(Pid_Set pid_set);
         void update();
         Pid_Set &get_pid_set();
+        operator double()
+        {
+            return pid_set_;
+        }
     private:
         Pid_Set pid_set_;
     };

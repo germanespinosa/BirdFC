@@ -19,6 +19,10 @@ namespace bird
         {
             variable = v ;
         }
+        operator double()
+        {
+            return variable;
+        }            
     private:
         Timer timer_;
     };
