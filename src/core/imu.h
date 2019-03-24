@@ -4,12 +4,7 @@ namespace bird
 {
     struct Imu : Sensor
     {
-        Imu()
-        {
-            sensor_set_.roll.update();
-            sensor_set_.pitch.update();
-            sensor_set_.yaw.update();
-        }
+        Imu();
         bool update() override;
         struct Imu_Data
         {

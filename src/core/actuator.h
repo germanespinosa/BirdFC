@@ -28,6 +28,10 @@ namespace bird
         {
             return output_value = v;
         }
+        operator double ()
+        {
+            return output_value;
+        }
     };
 
     struct Actuator_Set

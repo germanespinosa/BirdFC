@@ -1,6 +1,14 @@
 #include"imu.h"
 namespace bird
 {
+    Imu::Imu()
+    {
+        sensor_set_.roll.update();
+        sensor_set_.pitch.update();
+        sensor_set_.yaw.update();
+    }
+
+    
     bool Imu::update()
     {
         Imu::Imu_Data accelerometer = read_accelerometer();
