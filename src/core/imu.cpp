@@ -10,11 +10,13 @@ namespace bird
         Imu::Imu_Data gyroscope = read_gyroscope();
         Imu::Imu_Data magnetometer = read_magnetometer();
         
-        sensor_set_.roll = atan2(accelerometer.x, fabs(accelerometer.z));
+        sensor_set_.roll = atan2(accelerometer.x, hypot(accelerometer.y,accelerometer.z));
         sensor_set_.roll.variable.change_speed = gyroscope.x;
-        sensor_set_.pitch = atan2(accelerometer.y, fabs(accelerometer.z));
+        sensor_set_.pitch = atan2(accelerometer.y, hypot(accelerometer.x,accelerometer.z));
         sensor_set_.pitch.variable.change_speed = gyroscope.y;
         sensor_set_.yaw.update_value(gyroscope.z);
+        
+        
 /*        sensor_set_.vertical.update_value(accelerometer.z);
         sensor_set_.longitudinal.update_value(accelerometer.x);
         sensor_set_.lateral.update_value(accelerometer.y);*/
