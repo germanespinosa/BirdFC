@@ -47,6 +47,7 @@ namespace bird
 
     void Bird::run()
     {
+		static Timer p;
         Actuator_Set &actuator_set_ = actuator_.get_actuator_set();
         sensor_timer_.restart();
         control_timer_.restart();
@@ -58,6 +59,7 @@ namespace bird
             {
                 // lock the results while they are been used
                 // to compute the outputs of the pids controllers
+				// to set the targets
                 std::mutex mtx; 
                 roll_.update();
                 pitch_.update();
@@ -66,10 +68,10 @@ namespace bird
                 longitudinal_.update();
                 vertical_.update();
             }
-            // use the pids outputs to update the 
+			// use the pids outputs to update the 
             // propeller values
             int i=0;
-            for (Propeller propeller:actuator_set_.propellers)
+            for (Propeller &propeller:actuator_set_.propellers)
             {
                 double output = 0;
                 output += roll_ * propeller.ratios.roll;
@@ -81,6 +83,7 @@ namespace bird
                 propeller = output;
             }
             // update the actuator 
+			
             if (actuator_.update())
             {
                 actuator_timer_.restart();

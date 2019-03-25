@@ -2,7 +2,15 @@
 
 namespace bird
 {
+	Propeller::Propeller (Output_Ratios ratios)
+		: ratios(ratios)
+	{}
+	
     
+	Actuator_Set::Actuator_Set (std::vector<Propeller> propellers)
+		: propellers ( propellers ) 
+	{}
+	
     Propeller::Propeller(double angle, Rotation rotation)
         : ratios ({sin(angle),cos(angle),(double)rotation, sin(angle), cos(angle), 1})
     {}

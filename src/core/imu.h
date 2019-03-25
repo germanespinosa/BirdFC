@@ -15,8 +15,8 @@ namespace bird
             Imu_Data adjust(Range new_range)
             {
                 x=new_range.adjust(x,range);
-                y=new_range.adjust(x,range);
-                z=new_range.adjust(x,range);
+                y=new_range.adjust(y,range);
+                z=new_range.adjust(z,range);
                 range = range; 
                 return *this;
             }

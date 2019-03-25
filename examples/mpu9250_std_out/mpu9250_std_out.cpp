@@ -7,9 +7,9 @@ struct Timed_Control : bird::Control
     Timed_Control()
     {
         timer.restart();
-        control_set_.roll=.5;
-        control_set_.pitch=-.5;
-        control_set_.yaw=.5;
+        control_set_.roll=0;
+        control_set_.pitch=-0;
+        control_set_.yaw=0;
         control_set_.vertical=0;
         control_set_.lateral=0;
         control_set_.longitudinal=0;
@@ -32,21 +32,25 @@ int main()
 {
     bird::Mpu9250 imu;
     int i=0;
-    bird::Imu::Imu_Data raw = imu.read_accelerometer();
-    float cal=atan2(raw.x, raw.y) / M_PI * 180.0;
-    for(i=0;i<10;i++) 
-    {
-        bird::Imu::Imu_Data raw = imu.read_accelerometer();
-        std::cout << raw.x << "," << raw.y << "," << raw.z <<"\n";
-        delay(100);
-    }
-    bird::Std_Out so;
+	
+	std::vector<bird::Propeller> propellers;
+	
+	propellers.push_back(bird::Output_Ratios({1,0,0,0,0,0}));
+	propellers.push_back(bird::Output_Ratios({0,1,0,0,0,0}));
+	propellers.push_back(bird::Output_Ratios({0,0,1,0,0,0}));
+	
+	bird::Actuator_Set as = bird::Actuator_Set(propellers);
+	
+    bird::Std_Out so(as,.5);
     bird::Bird_Set bs;
     Timed_Control tc;
     
     bs.roll.proportional = 1;
+	bs.roll.proportional.range = {-bird::PI,bird::PI};
     bs.pitch.proportional = 1;
+	bs.pitch.proportional.range = {-bird::PI,bird::PI};
     bs.yaw.proportional = 1;
+	bs.yaw.proportional.range = {-bird::PI,bird::PI};
     bs.vertical.proportional = 1;
     bs.lateral.proportional = 1;
     bs.longitudinal.proportional = 1;

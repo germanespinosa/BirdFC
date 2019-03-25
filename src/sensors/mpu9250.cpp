@@ -4,7 +4,6 @@ namespace bird
 {
     void Mpu9250::init_IMU_()
     {
-        std::cout<<"there2\n";
         imu_.write_byte( constants.PWR_MGMT_1, 0x00);
         delay(100); // Wait for all registers to reset
         imu_.write_byte(constants.PWR_MGMT_1, 0x01);
@@ -36,27 +35,27 @@ namespace bird
     Imu::Imu_Data Mpu9250::read_accelerometer()
     {
       Imu::Imu_Data raw({-32768,32767});
-      raw.x = imu_.read_16(constants.ACCEL_XOUT_H);
-      raw.y = imu_.read_16(constants.ACCEL_YOUT_H);
-      raw.z = imu_.read_16(constants.ACCEL_ZOUT_H);
+      raw.x = (int16_t) imu_.read_16(constants.ACCEL_XOUT_H);
+      raw.y = (int16_t) imu_.read_16(constants.ACCEL_YOUT_H);
+      raw.z = (int16_t) imu_.read_16(constants.ACCEL_ZOUT_H);
       return raw.adjust(accelerometer_range);
     } 
 
     Imu::Imu_Data Mpu9250::read_gyroscope()
     {
       Imu::Imu_Data raw({-32768,32767});
-      raw.x = imu_.read_16(constants.GYRO_XOUT_H);
-      raw.y = imu_.read_16(constants.GYRO_YOUT_H);
-      raw.z = imu_.read_16(constants.GYRO_ZOUT_H);
+      raw.x = (int16_t) imu_.read_16(constants.GYRO_XOUT_H);
+      raw.y = (int16_t) imu_.read_16(constants.GYRO_YOUT_H);
+      raw.z = (int16_t) imu_.read_16(constants.GYRO_ZOUT_H);
       return raw.adjust(gyroscope_range);
     }
     
     Imu::Imu_Data Mpu9250::read_magnetometer()
     {
       Imu::Imu_Data raw(get_magnetometer_range(magnetometer_scale_));
-      raw.x = magnetometer_.read_16x(constants.AK8963_XOUT_L);
-      raw.y = magnetometer_.read_16x(constants.AK8963_YOUT_L);
-      raw.z = magnetometer_.read_16x(constants.AK8963_ZOUT_L);
+      raw.x = (int16_t) magnetometer_.read_16x(constants.AK8963_XOUT_L);
+      raw.y = (int16_t) magnetometer_.read_16x(constants.AK8963_YOUT_L);
+      raw.z = (int16_t) magnetometer_.read_16x(constants.AK8963_ZOUT_L);
       return raw.adjust({-49120.0f,49120.0f});
     }
 

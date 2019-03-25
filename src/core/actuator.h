@@ -1,4 +1,5 @@
 #pragma once
+#include"utils.h"
 #include<vector>
 #include <math.h>
 namespace bird
@@ -22,21 +23,23 @@ namespace bird
         Propeller()
         {}
         Propeller(double angle, Rotation rotation);
+		Propeller(Output_Ratios ratios);
         Output_Ratios ratios;
-        double output_value;
+        Variable output;
         double operator = (double v)
         {
-            return output_value = v;
+            return output = v;
         }
         operator double ()
         {
-            return output_value;
+            return output;
         }
     };
 
     struct Actuator_Set
     {
     public:
+		Actuator_Set (std::vector<Propeller> propellers);
         Actuator_Set (std::initializer_list<double> angles, Rotation rotation);
         void invert_propellers();
         static Actuator_Set plus()

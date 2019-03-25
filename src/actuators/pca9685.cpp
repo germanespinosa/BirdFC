@@ -19,10 +19,10 @@ bool bird::Pca9685::update()
     i2c_.set_register_address(constants_.LED0_ON_L);
     for (bird::Propeller p : actuator_set_.propellers)
     {
-        uint16_t pwm = range.adjust(p.output_value,{0,1});
+        uint16_t pwm = range.adjust(p,{0,1});
         i2c_.write_16x(pwm);
         i2c_.write_16x(4095);
-        std::cout << p.output_value << "\t";
+        std::cout << p << "\t";
     }
     std::cout << "\n";
     return true;
