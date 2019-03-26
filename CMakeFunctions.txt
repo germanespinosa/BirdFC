@@ -7,7 +7,6 @@ set (bird_core
     src/core/utils.cpp
     src/core/control.cpp
     src/core/sensor.cpp
-    src/core/imu.cpp
     src/core/actuator.cpp
     src/core/pid.cpp
     src/core/bird.cpp
@@ -15,12 +14,13 @@ set (bird_core
     src/core/utils.h
     src/core/control.h
     src/core/sensor.h
-    src/core/imu.h
     src/core/actuator.h
     src/core/pid.h
     src/core/bird.h
     src/core/i2c.h)
 set (bird_sensors
+    src/sensors/imu.cpp
+    src/sensors/imu.h
     src/sensors/mpu9250.cpp)
 set (bird_controls
     src/controls/gamepad.cpp)

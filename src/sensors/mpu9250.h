@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include "mpu9250_constants.h"
-#include "../core/imu.h"
+#include "imu.h"
 #include <wiringPiI2C.h>
 #include <wiringPi.h>
 #include <math.h>
