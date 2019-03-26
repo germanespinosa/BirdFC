@@ -27,7 +27,7 @@ namespace bird
 			std::cout << counter++ << " : ";
 			for (Propeller p : actuator_set_.propellers)
 			{
-				std::cout << p << "\t";
+				std::cout << p * 180 / PI << "\t";
 			}
 			std::cout << "\n";
 		}

@@ -5,7 +5,7 @@
 namespace bird
 {
     const double PI = M_PI;
-
+    const double G  = 9.8; // m/s2
     struct Range
     {
         Range(double min_value, double max_value)
@@ -64,6 +64,10 @@ namespace bird
         operator double()
         {
             return value;
+        }
+        double operator +=( double v)
+        {
+            return value+=v;
         }
     };
     struct Low_Pass_Filter : public Variable

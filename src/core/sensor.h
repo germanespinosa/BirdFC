@@ -17,7 +17,11 @@ namespace bird
         void update_change_speed(double new_value);
         double operator = (double v)
         {
-            variable = v ;
+            return variable = v ;
+        }
+        double operator += (double v)
+        {
+            return variable += v ;
         }
         operator double()
         {
